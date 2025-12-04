@@ -1,0 +1,42 @@
+# Healthcare Fraud Detection - Knowledge Graph RAG
+# Abacus Insights Hackathon
+
+# Core Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+python-dateutil>=2.8.0
+
+# Knowledge Graph
+networkx>=3.1
+
+# Vector Database & Embeddings
+chromadb>=0.4.0
+sentence-transformers>=2.2.0
+
+# LLM Integration (Optional - uncomment if using)
+# openai>=1.0.0
+# langchain>=0.1.0
+# langchain-community>=0.0.20
+
+# Web Interface
+streamlit>=1.29.0
+plotly>=5.18.0
+
+# Data Analysis & Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Machine Learning
+scikit-learn>=1.3.0
+xgboost>=2.0.0
+lightgbm>=4.0.0
+imbalanced-learn>=0.11.0
+
+# Utilities
+tqdm>=4.65.0
+python-dotenv>=1.0.0
+
+# Optional: Advanced features
+# duckdb>=0.9.0  # Fast SQL analytics
+# neo4j>=5.14.0  # Full graph database (if needed)
+
