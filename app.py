@@ -58,6 +58,49 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
+def check_and_generate_data():
+    """Check if data exists, if not, generate it"""
+    if not os.path.exists('data/processed/claims_processed.csv'):
+        st.info("🔄 First-time setup: Generating data... This will take about 1-2 minutes.")
+        progress_bar = st.progress(0)
+        status_text = st.empty()
+        
+        try:
+            # Generate synthetic data
+            status_text.text("Step 1/3: Generating synthetic healthcare data...")
+            progress_bar.progress(10)
+            from data_generator import HealthcareDataGenerator
+            generator = HealthcareDataGenerator(n_claims=1000, n_providers=50, n_patients=300)
+            generator.generate_all_data()
+            progress_bar.progress(40)
+            
+            # Run ETL pipeline
+            status_text.text("Step 2/3: Running fraud detection pipeline...")
+            from etl_pipeline import FraudDetectionETL
+            etl = FraudDetectionETL()
+            etl.run_pipeline()
+            progress_bar.progress(70)
+            
+            # Build knowledge graph
+            status_text.text("Step 3/3: Building knowledge graph...")
+            from knowledge_graph import HealthcareFraudKnowledgeGraph
+            kg = HealthcareFraudKnowledgeGraph()
+            claims_df = pd.read_csv('data/processed/claims_processed.csv')
+            providers_df = pd.read_csv('data/raw/providers.csv')
+            patients_df = pd.read_csv('data/raw/patients.csv')
+            kg.build_graph(claims_df, providers_df, patients_df)
+            kg.save_graph()
+            progress_bar.progress(100)
+            
+            status_text.text("✅ Setup complete! Loading application...")
+            return True
+        except Exception as e:
+            st.error(f"Error during setup: {e}")
+            st.error("Please check the logs and try refreshing the page.")
+            return False
+    return True
+
+
 @st.cache_data
 def load_data():
     """Load all necessary data"""
@@ -75,13 +118,6 @@ def load_data():
         return claims_df, providers_df, patients_df, fraudulent_df
     except Exception as e:
         st.error(f"Error loading data: {e}")
-        st.info("Please run the data generation and ETL pipeline first!")
-        st.code("""
-# Run these commands:
-python data_generator.py
-python etl_pipeline.py
-python knowledge_graph.py
-        """)
         return None, None, None, None
 
 
@@ -602,6 +638,10 @@ def render_detailed_search(claims_df):
 
 def main():
     """Main application"""
+    
+    # Check and generate data if needed
+    if not check_and_generate_data():
+        st.stop()
     
     # Load data
     claims_df, providers_df, patients_df, fraudulent_df = load_data()
