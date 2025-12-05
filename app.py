@@ -252,15 +252,16 @@ def render_dashboard(claims_df, providers_df, fraudulent_df):
     pattern_counts = pd.Series(fraud_patterns).value_counts().reset_index()
     pattern_counts.columns = ['Pattern', 'Count']
     
-    fig = px.bar(
+    fig = px.pie(
         pattern_counts,
-        x='Pattern',
-        y='Count',
-        title='Fraud Pattern Frequency',
-        color='Count',
-        color_continuous_scale='Reds'
+        values='Count',
+        names='Pattern',
+        title='Fraud Pattern Distribution',
+        color_discrete_sequence=px.colors.sequential.Reds_r,
+        hole=0.3  # Creates a donut chart for better aesthetics
     )
-    fig.update_layout(height=400)
+    fig.update_traces(textposition='inside', textinfo='percent+label')
+    fig.update_layout(height=500)
     st.plotly_chart(fig, use_container_width=True)
     
     # Provider risk
