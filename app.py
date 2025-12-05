@@ -70,7 +70,7 @@ def check_and_generate_data():
             status_text.text("Step 1/3: Generating synthetic healthcare data...")
             progress_bar.progress(10)
             from data_generator import HealthcareDataGenerator
-            generator = HealthcareDataGenerator(n_claims=1000, n_providers=50, n_patients=300)
+            generator = HealthcareDataGenerator(n_claims=1000)
             generator.generate_all_data()
             progress_bar.progress(40)
             
