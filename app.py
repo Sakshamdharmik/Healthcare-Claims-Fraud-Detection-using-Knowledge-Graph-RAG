@@ -71,7 +71,8 @@ def check_and_generate_data():
             progress_bar.progress(10)
             from data_generator import HealthcareDataGenerator
             generator = HealthcareDataGenerator(n_claims=1000)
-            generator.generate_all_data()
+            data = generator.generate_all_data()
+            generator.save_data(data)
             progress_bar.progress(40)
             
             # Run ETL pipeline
