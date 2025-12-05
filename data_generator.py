@@ -165,7 +165,7 @@ class HealthcareDataGenerator:
                 'years_experience': random.randint(3, 35),
                 'fraud_history_count': fraud_count,
                 'fraud_types': ','.join(fraud_types) if fraud_types else None,
-                'risk_score': fraud_count * 15 if has_fraud_history else random.randint(0, 20)
+                'risk_score': min(fraud_count * 15, 100) if has_fraud_history else random.randint(0, 20)
             })
         
         return pd.DataFrame(providers)
