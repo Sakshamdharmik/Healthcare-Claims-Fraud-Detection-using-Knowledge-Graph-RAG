@@ -2,6 +2,8 @@
 
 > **Detecting coordinated healthcare fraud through relationship-aware AI**
 
+Streamlit Deployed Link :- https://healthcare-claims-fraud-detection-using-knowledge-graph-rag-gl.streamlit.app/
+
 Built for **Abacus Insights Hackathon** | December 2024
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
